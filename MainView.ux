@@ -1,0 +1,226 @@
+<App>
+	<JavaScript File="MainView.js" />
+		<DockPanel>
+			<Router ux:Name="router" />
+			<PageControl AllowedSwipeDirections="Forward">
+				<Page ux:Name="splash">
+					<!--Apariencia -->
+					<Android.StatusBarConfig Color="#0003" IsVisible="True" />
+					<iOS.StatusBarConfig Style="Light" Animation="Slide" IsVisible="True" />
+					<StatusBarBackground Dock="Top" />
+					<LinearGradient StartPoint="1,1" EndPoint="0,1">
+						<GradientStop Offset="0" Color="#093C4D" />
+				        <GradientStop Offset="1" Color="#0C0E23" />
+				    </LinearGradient>
+					<!-- Pantalla de login -->
+					<DockPanel>
+						<WhileTrue Value="{showWebView}">
+							<StatusBarBackground Dock="Top" />
+							<OnBackButton>
+								<Callback Handler="{undoLogin}" />
+							</OnBackButton>
+							<NativeViewHost ux:Name="nvh" Background="#ddd">
+								<WebView ux:Name="webView" Url="{url}">
+									<PageLoaded>
+										<EvaluateJS Handler="{pageLoaded}">
+											return { url : document.location.href };
+										</EvaluateJS>
+									</PageLoaded>
+								</WebView>
+
+								<AddingAnimation>
+									<Change nvh.Opacity="0" Duration="0.3" />
+								</AddingAnimation>
+							</NativeViewHost>
+						</WhileTrue>
+					</DockPanel>
+					<!--  Perfil -->
+					<!--<Panel>
+						<WhileTrue Value="{hasProfile}">
+							<StackPanel Alignment="Center" Padding="20">
+								<Rectangle Layer="Background" CornerRadius="15" Fill="#ddd">
+									<Stroke Width="2" Brush="#aaa" />
+								</Rectangle>
+								<Panel Height="100" Width="100">
+									<Circle>
+										<ImageFill Url="{myPicture}" />
+								 		<Stroke Width="4" Brush="#aaa" />
+									</Circle>
+									<Clicked>
+										<DebugAction Message="{myPicture}"/>
+									</Clicked>
+								</Panel>
+
+								<StackPanel Margin="10" Alignment="Center">
+									<Text Value="Bienvenido" FontSize="22" TextAlignment="Center"/>
+									<Text Value="{myName}" FontSize="26" TextAlignment="Center"/>
+								</StackPanel>
+
+								<AddingAnimation>
+									<Move RelativeTo="ParentSize" Y="1" Duration="1.5" Easing="BackIn" />
+								</AddingAnimation>
+								<Clicked>
+									<Callback Handler="{goToGame}" />
+								</Clicked>
+							</StackPanel>
+						</WhileTrue>
+					</Panel>-->
+					<!-- Splash -->
+					<DockPanel>
+						<Image Dock="Top" ux:Name="rect" File="Assets/images/logo.png" Margin="20,-10,20,20" Y="10"/>
+						<StackPanel>
+							<Title ux:Name="title" Value="{tituloActual}"></Title>
+						</StackPanel>
+						<Timeline ux:Name="timeline" InitialProgress="1">
+						    <Change Target="rect.Opacity">
+						            <Keyframe Value="1" Time="0.5" />
+				        			<Keyframe Value="0" Time="2.0" />
+						    </Change>
+						    <Change Target="rect.Y">
+				        			<Keyframe Value="-40" Time="3.0" />
+						    </Change>
+						    <Change Target="title.Opacity">
+						            <Keyframe Value="1" Time="2.0" />
+				        			<Keyframe Value="0" Time="4.0" />
+						    </Change>
+						</Timeline>
+						<StackPanel Alignment="VerticalCenter">
+								<WhileFalse Value="{display}">
+									<StackPanel>
+										<DockPanel Height="50" Padding="5,5,15,5" Margin="20,20,20,10" Alignment="Center">
+											<Rectangle Layer="Background" CornerRadius="4" Fill="#3B5998" />
+											<Image File="Assets/images/facebook.png" Dock="Left" Margin="8,8,10,8"/>
+											<Text Value="Login with facebook" Alignment="Center" Color="#fff"
+												FontSize="20"/>
+											<Clicked>
+												<Callback Handler="{login}" />
+											</Clicked>
+										</DockPanel>
+										<DockPanel Alignment="Center" Padding="0,0,0,10">
+											<Text Value="Saltar" Alignment="Center" Color="#fff"
+												FontSize="15"/>
+											<Clicked>
+												<Callback Handler="{goToGame}" />
+											</Clicked>
+										</DockPanel>
+									</StackPanel>
+								</WhileFalse>
+								<WhileTrue Value="{display}">
+									<StackPanel>
+											<Rectangle Width="100" CornerRadius="50" Height="40" Margin="10,30">
+												<Title Color="#f2fb28">Play</Title>																
+												<Stroke Color="#fff" Width="3" Offset="0" />
+												<WhileHovering>
+															<Scale Factor="1.2" Duration="0.1" />
+												</WhileHovering>
+												<Clicked>
+													<Callback Handler="{goToGame}" />
+												</Clicked>
+											</Rectangle>
+									</StackPanel>
+								</WhileTrue>
+								<Quote Value="{texto}"/>
+								<Cite Value="{cita}"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" Dock="Bottom" Padding="25,35,0,25">
+							<Image File="Assets/images/facebook.png" Margin="5 " Alignment="Left" Width="35" Color="#FFF" Clicked="{onClick}">
+								<Clicked>
+						            <LaunchUri Uri="https://www.facebook.com/esdetac " />
+						        </Clicked>
+							</Image>
+							<Image File="Assets/images/twitter.png" Margin="5" Alignment="Left" Width="35" Color="#FFF">
+								<Clicked>
+						            <LaunchUri Uri="https://www.twitter.com/esdetac" />
+						        </Clicked>
+							</Image>
+							<Image File="Assets/images/insta.png" Margin="5" Alignment="Left" Width="35" Color="#FFF">
+								<Clicked>
+						            <LaunchUri Uri="https://www.instagram.com/esdetac" />
+						        </Clicked>
+							</Image>
+							<Image File="Assets/images/youtube.png" Margin="5" Alignment="Left" Width="35" Color="#FFF">
+								<Clicked>
+						            <LaunchUri Uri="https://www.youtube.com/esdetac" />
+						        </Clicked>
+							</Image>
+							<Image File="Assets/images/esdetac.png" Margin="5" Alignment="Left" Width="100" Color="#FFF" />
+						</StackPanel>
+					</DockPanel>
+				</Page>
+				<Page ux:Name="gameList">
+					<!--Apariencia -->
+					<DockPanel>
+						<Android.StatusBarConfig Color="#0003" IsVisible="True" />
+						<iOS.StatusBarConfig Style="Light" Animation="Slide" IsVisible="True" />
+						<StatusBarBackground Dock="Top" />
+						
+						<!-- Header -->
+						<StackPanel Dock="Top">
+							<Title FontSize="20" TextAlignment="Left" Margin="40,0,0,0">¿DÓNDE ESTÁ?</Title>
+							<Image ux:Name="logo" File="Assets/images/logo.png" Margin="40,-20,40,0" />
+						</StackPanel>
+						<ScrollView AllowedScrollDirections="Vertical">
+							    <StackPanel>
+									<Title FontSize="25">LISTO PARA EMPEZAR?</Title>
+									<!-- ITEM INDIVIDUAL -->
+									<DockPanel Width="100%" Padding="3" Margin="30,10" Alignment="Center">
+										 	<Panel>
+												<DockPanel>
+													<StackPanel Dock="Left">
+														<Title FontSize="20" Margin="7">Libros de la Biblia</Title>
+														<Title Margin="7,0,0,0" TextAlignment="Left" FontSize="17">Record: 30</Title>
+													</StackPanel>
+													<Panel Dock="Right">
+														<Panel>
+															<Rectangle Width="100" CornerRadius="50" Height="40" Margin="10,30">
+																<Title Color="#f2fb28">Play</Title>																
+																<Stroke Color="#fff" Width="3" Offset="0" />
+																<WhileHovering>
+																	        <Scale Factor="1.2" Duration="0.1" />
+																</WhileHovering>
+																<Clicked>
+																	<Callback Handler="{playGame}" />
+																</Clicked>
+															</Rectangle>
+														</Panel>
+													</Panel>
+												</DockPanel>
+												<ImageFill File="Assets/thumbs/libros.jpg" Opacity="0.6" StretchMode="UniformToFill" />
+											</Panel>
+											<Rectangle Layer="Background" Fill="#000">
+												<Stroke Color="#f2fb28" Width="3" Offset="0" />
+											</Rectangle>
+											<WhileHovering>
+												<Rotate Degrees="5" Duration="0.1"/>
+											</WhileHovering>
+									</DockPanel>
+									<!-- / TERMINA ITEM INDIVIDUAL -->
+
+
+									<!-- PROZIMAMENTE-->
+									<Title FontSize="25">PROXIMAMENTE...</Title>
+									<DockPanel Width="100%" Height="100" Padding="3" Margin="30,10" Alignment="Center">
+											<Rectangle Layer="Background">
+												<Stroke Color="#f2fb28" Width="3" Offset="0" />
+											</Rectangle>
+									</DockPanel>
+								</StackPanel>
+						</ScrollView>
+					</DockPanel>
+
+					<LinearGradient StartPoint="1,1" EndPoint="0,1">
+						<GradientStop Offset="0" Color="#093C4D" />
+				        <GradientStop Offset="1" Color="#0C0E23" />
+				    </LinearGradient>
+				</Page>
+				<Page ux:Name="game">
+					<StackPanel>
+						<Rectangle Width="100%" Height="50%">
+							<Stroke Color="#f2fb28" Width="3" Offset="0" />
+						</Rectangle>
+					</StackPanel>
+				</Page>
+			</PageControl>
+		</DockPanel>
+</App>

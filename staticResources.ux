@@ -1,0 +1,18 @@
+<Panel ux:Class="StaticResources">
+    <Font File="Assets/coolvetica.ttf" ux:Global="Coolvetica" />
+    <Text ux:Class="Quote" 
+        Font="Coolvetica" 
+        FontSize="22"
+        TextAlignment="Center"
+        Color="#f2fb28" Margin="50,0,50,0" TextWrapping="Wrap" />
+    <Text ux:Class="Cite" 
+        Font="Coolvetica" 
+        FontSize="22"
+        TextAlignment="Center"
+        Color="#fff" Margin="50,0,50,0" TextWrapping="Wrap" />
+    <Text ux:Class="Title" 
+        Font="Coolvetica" 
+        FontSize="30"
+        TextAlignment="Center"
+        Color="#fff" TextWrapping="Wrap" />
+</Panel>

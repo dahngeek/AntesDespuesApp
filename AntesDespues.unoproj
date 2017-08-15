@@ -1,0 +1,16 @@
+{
+  "RootNamespace":"",
+  "Description": "¿Cuanto sabes de la biblia? Está antes o después? Aprende.",
+  "Mobile": {
+        "Orientations": "Portrait"
+  },
+  "Packages": [
+	"Fuse",
+	"FuseJS",
+	"Fuse.Launcher"
+  ],
+  "Includes": [
+    "*",
+    "Auth.js:Bundle"
+  ]
+}
